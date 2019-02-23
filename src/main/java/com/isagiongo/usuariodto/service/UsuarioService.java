@@ -1,5 +1,7 @@
 package com.isagiongo.usuariodto.service;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,6 +16,10 @@ public class UsuarioService {
 	
 	public Usuario salvar(Usuario usuario) {
 		return usuarioRepository.save(usuario);
+	}
+
+	public Optional<Usuario> buscarPorId(Long id) {
+		return usuarioRepository.findById(id);
 	}
 
 }
