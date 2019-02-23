@@ -29,14 +29,20 @@ public class UsuarioController {
 	private UsuarioService usuarioService;
 
 	@PostMapping
-	public ResponseEntity<UsuarioRespostaDTO> salvar(@RequestBody @Valid UsuarioDTO usuarioDTO){
-		Usuario usuario = usuarioService.salvar(usuarioDTO.transformaParaObjeto());
+	public ResponseEntity<UsuarioRespostaDTO> insert(@RequestBody @Valid UsuarioDTO usuarioDTO) {
+		Usuario usuario = usuarioService.insert(usuarioDTO.transformaParaObjeto());
 		return new ResponseEntity<>(UsuarioRespostaDTO.transformaEmDTO(usuario), HttpStatus.CREATED);
 	}
 	
-	@GetMapping(value = "/{id}")
-	public ResponseEntity<Optional<Usuario>> buscarPorId(@PathVariable Long id){
-		Optional<Usuario> obj = usuarioService.buscarPorId(id);
+	@GetMapping(value = "/busca-id/{id}")
+	public ResponseEntity<Optional<Usuario>> find(@PathVariable Long id){
+		Optional<Usuario> obj = usuarioService.find(id);
+		return ResponseEntity.ok().body(obj);
+	}
+	
+	@GetMapping(value = "/busca-email/{email}")
+	public ResponseEntity<Optional<Usuario>> find(@PathVariable String email){
+		Optional<Usuario> obj = usuarioService.find(email);
 		return ResponseEntity.ok().body(obj);
 	}
 }

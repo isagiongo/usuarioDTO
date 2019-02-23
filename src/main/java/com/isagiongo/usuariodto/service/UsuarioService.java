@@ -10,16 +10,20 @@ import com.isagiongo.usuariodto.repository.UsuarioRepository;
 
 @Service
 public class UsuarioService {
-	
+
 	@Autowired
 	private UsuarioRepository usuarioRepository;
-	
-	public Usuario salvar(Usuario usuario) {
+
+	public Usuario insert(Usuario usuario) {
 		return usuarioRepository.save(usuario);
 	}
 
-	public Optional<Usuario> buscarPorId(Long id) {
+	public Optional<Usuario> find(Long id) {
 		return usuarioRepository.findById(id);
+	}
+
+	public Optional<Usuario> find(String email) {
+		return usuarioRepository.findByEmail(email);
 	}
 
 }
