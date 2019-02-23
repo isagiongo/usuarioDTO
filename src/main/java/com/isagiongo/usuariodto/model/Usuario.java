@@ -28,4 +28,7 @@ public class Usuario {
 	    this.senha = senha;
 	}
 
+	public void setId(Long id) {
+		this.id = id;
+	}
 }

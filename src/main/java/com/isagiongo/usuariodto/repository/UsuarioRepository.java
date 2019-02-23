@@ -12,4 +12,7 @@ public interface UsuarioRepository extends CrudRepository<Usuario, Long> {
 
 	Optional<Usuario> findByEmail(String email);
 
+	void save(Optional<Usuario> user);
+
+
 }

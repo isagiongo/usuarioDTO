@@ -40,4 +40,11 @@ public class UsuarioService {
 		}
 	}
 
+	public Usuario update(Usuario userObj) {
+		if (find(userObj.getId()).isPresent()) {
+			return usuarioRepository.save(userObj);
+		}
+		return null;
+	}
+
 }
