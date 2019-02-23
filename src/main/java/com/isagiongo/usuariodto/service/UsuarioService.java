@@ -32,19 +32,11 @@ public class UsuarioService {
 	}
 
 	public void delete(Long id) {
-		find(id);
-		try {
-			usuarioRepository.deleteById(id);
-		} catch (EmptyResultDataAccessException e) {
-			throw new EmptyResultDataAccessException("Id não encontrado", 1);
-		}
+		usuarioRepository.deleteById(id);
 	}
 
 	public Usuario update(Usuario userObj) {
-		if (find(userObj.getId()).isPresent()) {
-			return usuarioRepository.save(userObj);
-		}
-		return null;
+		return usuarioRepository.save(userObj);
 	}
 
 }

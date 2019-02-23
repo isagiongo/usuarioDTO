@@ -44,26 +44,40 @@ public class UsuarioController {
 	@GetMapping(value = "/busca-id/{id}")
 	public ResponseEntity<Optional<Usuario>> find(@PathVariable Long id) {
 		Optional<Usuario> obj = usuarioService.find(id);
-		return ResponseEntity.ok().body(obj);
+		if (obj.isPresent()) {
+			return ResponseEntity.ok().body(obj);
+		}
+		return ResponseEntity.notFound().build();
 	}
 
 	@GetMapping(value = "/busca-email/{email}")
 	public ResponseEntity<Optional<Usuario>> find(@PathVariable String email) {
 		Optional<Usuario> obj = usuarioService.find(email);
-		return ResponseEntity.ok().body(obj);
+		if (obj.isPresent()) {
+			return ResponseEntity.ok().body(obj);
+		}
+		return ResponseEntity.notFound().build();
 	}
 
 	@PutMapping(value = "/{id}")
 	public ResponseEntity<Usuario> update(@RequestBody UsuarioDTO usuarioDTO, @PathVariable Long id) {
 		Usuario userObj = usuarioDTO.transformaParaObjeto();
 		userObj.setId(id);
-		userObj = usuarioService.update(userObj);
-		return ResponseEntity.ok().body(userObj);
+		Optional<Usuario> userExiste = usuarioService.find(id);
+		if (userExiste.isPresent()) {
+			userObj = usuarioService.update(userObj);
+			return ResponseEntity.ok().body(userObj);
+		}
+		return ResponseEntity.notFound().build();
 	}
 
 	@DeleteMapping(value = "/deleta-id/{id}")
 	public ResponseEntity<Void> delete(@PathVariable Long id) {
-		usuarioService.delete(id);
-		return ResponseEntity.noContent().build();
+		Optional<Usuario> userExiste = usuarioService.find(id);
+		if (userExiste.isPresent()) {
+			usuarioService.delete(id);
+			return ResponseEntity.noContent().build();
+		}
+		return ResponseEntity.notFound().build();
 	}
 }
