@@ -7,12 +7,12 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.isagiongo.usuariodto.dto.UsuarioDTO;
@@ -34,6 +34,12 @@ public class UsuarioController {
 		return new ResponseEntity<>(UsuarioRespostaDTO.transformaEmDTO(usuario), HttpStatus.CREATED);
 	}
 	
+	@GetMapping
+	public ResponseEntity<Iterable<Usuario>> findAll(){
+		Iterable<Usuario> lista = usuarioService.findAll();
+		return ResponseEntity.ok().body(lista);
+	}
+	
 	@GetMapping(value = "/busca-id/{id}")
 	public ResponseEntity<Optional<Usuario>> find(@PathVariable Long id){
 		Optional<Usuario> obj = usuarioService.find(id);
@@ -44,5 +50,11 @@ public class UsuarioController {
 	public ResponseEntity<Optional<Usuario>> find(@PathVariable String email){
 		Optional<Usuario> obj = usuarioService.find(email);
 		return ResponseEntity.ok().body(obj);
+	}
+	
+	@DeleteMapping(value = "/deleta-id/{id}")
+	public ResponseEntity<Void> delete(@PathVariable Long id){
+		usuarioService.delete(id);
+		return ResponseEntity.noContent().build();
 	}
 }
